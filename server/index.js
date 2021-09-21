@@ -1,0 +1,43 @@
+const express = require('express');
+const cors = require('cors');
+const StreamChat = require('stream-chat').StreamChat;
+
+require('dotenv').config({ path: '../.env' })
+
+const app = express();
+const port = 4000;
+
+const appKey = process.env.REACT_APP_STREAM_API_KEY;
+const secret = process.env.REACT_APP_STREAM_API_SECRET;
+// Initialize Stream chat server client
+// https://getstream.io/chat/docs/javascript/tokens_and_authentication/?language=javascript
+const serverClient = StreamChat.getInstance(appKey, secret);
+
+app.use(cors());
+app.use(express.json());
+
+app.get('/server', (req, res) => {
+    // Server running test
+    res.send(`Hola Mundo!`);
+})
+
+app.post('/token', async (req, res) => {
+
+    // get the userId from the front end body
+    const { userId } = req.body;
+
+    const token = serverClient.createToken(
+        userId,
+        Math.floor(Date.now() / 1000) + (60 * 60)
+    );
+    
+    try {
+        res.status(200).send(token);
+    } catch (err) {
+        res.status(500).send("Error getting token", err);
+    }
+})
+
+app.listen(port, () => {
+    console.log(`chaterrific app listening on port ${port}`);
+})
