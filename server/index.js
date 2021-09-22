@@ -22,13 +22,13 @@ app.get('/server', (req, res) => {
 })
 
 app.post('/token', async (req, res) => {
-
+    console.log('REQUEST', req.body);
     // get the userId from the front end body
     const { userId } = req.body;
 
     const token = serverClient.createToken(
         userId,
-        Math.floor(Date.now() / 1000) + (60 * 60)
+        Math.floor(Date.now() / 1000) + (60 * 60) // expires in 1 hr
     );
     
     try {
