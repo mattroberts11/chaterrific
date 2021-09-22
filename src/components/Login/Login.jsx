@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { StreamChat } from 'stream-chat';
+import { Box, Button, Container, TextField } from '@mui/material';
+
+import './login.scss'
 import axios from 'axios';
 
 
@@ -27,24 +30,33 @@ const Login = () => {
   }
 
   const handleChange = (e) => {
-    setUserId(e.target.value)
+    setUserId(e.target.value);
   }
 
   const handleClick = async () => {
     // console.log("VALUE SUBMITED", userId);
-    getToken()
+    getToken();
     
   }
 
   return (
-    
-    <div id="login-box">
-        <label htmlFor="userId">
-        User Id: 
-        <input name="userId" value={formValue} type="text"  onChange={(e) => handleChange(e)}/>
-        </label>
-        <button onClick={handleClick}>Join Chat!</button>
-    </div>
+    <Container maxWidth="sm">
+      <Box sx={{ bgcolor: '#cfe8fc', height: '90vh', margin: '20px', padding: '20px', borderRadius: '8px' }}>
+        <h1>Chaterrific!</h1>
+        <div>
+          <TextField 
+            name="userId" 
+            label="Create Username"  
+            value={formValue} type="text"  
+            onChange={(e) => handleChange(e)} 
+            sx={{marginBottom: '10px'}}
+          />
+        </div>
+        <div>
+          <Button variant="contained" size="large"  onClick={handleClick}>Join Chat!</Button>
+        </div>
+      </Box>
+    </Container>
       
   );
 }
