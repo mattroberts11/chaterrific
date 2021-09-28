@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 
 import { ChatClientContext } from '../../ChatClientContext';
 import Channels  from '../../components/Channels/Channels';
+import Messages from '../../components/Messages/Messages'
 
 
 
@@ -29,7 +30,9 @@ const Lobby = () => {
           </Paper>
         </Grid>
         <Grid item xs={8}>
-          <Paper>Chat</Paper>
+          <Paper>
+            <Messages />
+          </Paper>
         </Grid>
       </Grid>
     </Box>
