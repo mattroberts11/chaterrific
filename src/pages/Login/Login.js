@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { ChatClientContext } from '../../ChatClientContext';
-// import { AuthContext, AuthProvider } from '../../AuthContext';
 
 import { Box, Button, TextField } from '@mui/material';
 import { useHistory } from 'react-router';
@@ -24,7 +23,7 @@ const Login = ({ setUserId, userId}) => {
      chatClient.connectUser({id: userId}, response.data)
      .then( r => {
       //  console.log('Connect User Response', r);
-       setUserId(userId);
+      //  setUserId(userId);
       //  setView('lobby');
        history.push("/lobby")
       });

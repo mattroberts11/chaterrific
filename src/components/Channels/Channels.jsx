@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-// import { StreamChat } from "stream-chat";
 import { ChatClientContext } from "../../ChatClientContext";
 
 const Channels = () => {
 
   const [channels, setChannels] = useState();
-  // let channels;
+
   const chatClient = useContext(ChatClientContext);
 
   const filter = { type: 'messaging', members: {$in: [chatClient.userID]}};
@@ -13,26 +12,27 @@ const Channels = () => {
 
   const getChannels = async () => {
     await chatClient.queryChannels(filter, sort)
-      .then(r => setChannels(r));
+      .then(res => setChannels(res));
   }
 
   useEffect(() => {
+    
     if(!channels){
       getChannels();
     }
-   console.log('CHANNES JSX==', channels)
-  }, [])
+
+  },[])
 
 
   return (
     <>
       <h2>Current User Channels</h2>
       <ul>
-        {/* { channels &&
+        { channels &&
           channels.map( (channel, i) => (
-            <li>{channel}</li>
+            <li key={`${channel.id}-${i}`}>{`${channel.id}(${channel.data.member_count})`}</li>
           ))
-        }  */}
+        } 
       </ul>
     </>
   );

@@ -1,5 +1,5 @@
-import { useContext, useState } from 'react';
-import { ChatClientContext, ChatClientProvider } from './ChatClientContext';
+import { useState } from 'react';
+import { ChatClientProvider } from './ChatClientContext';
 
 import { CssBaseline } from '@mui/material/';
 
@@ -14,15 +14,12 @@ import './App.scss';
 import Lobby from './pages/Lobby/Lobby';
 import Login from './pages/Login/Login';
 
-
-
-
 const  App = () => {
 
   // const [view, setView] = useState('login');
   const [userId, setUserId] = useState(null);
 
-  const chatClient = useContext(ChatClientContext);
+  // const chatClient = useContext(ChatClientContext);
 
   return (
     <ChatClientProvider>
@@ -34,9 +31,7 @@ const  App = () => {
               <Login setUserId={setUserId} userId={userId} />
             </Route>
             <Route path="/lobby">
-              
               <Lobby userId={userId} />
-             
             </Route>
           </Switch>
         </Router>
