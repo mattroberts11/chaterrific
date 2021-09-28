@@ -23,7 +23,6 @@ const Channels = () => {
 
   },[])
 
-
   return (
     <>
       <h2>Current User Channels</h2>

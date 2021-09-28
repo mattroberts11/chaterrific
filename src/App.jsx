@@ -16,10 +16,7 @@ import Login from './pages/Login/Login';
 
 const  App = () => {
 
-  // const [view, setView] = useState('login');
   const [userId, setUserId] = useState(null);
-
-  // const chatClient = useContext(ChatClientContext);
 
   return (
     <ChatClientProvider>
