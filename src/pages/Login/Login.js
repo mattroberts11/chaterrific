@@ -1,31 +1,32 @@
-import { useContext, useState } from 'react';
-import { StreamChat } from 'stream-chat';
+import React, { useContext } from 'react';
 import { ChatClientContext } from '../../ChatClientContext';
-import { Box, Button, Container, TextField } from '@mui/material';
+// import { AuthContext, AuthProvider } from '../../AuthContext';
+
+import { Box, Button, TextField } from '@mui/material';
+import { useHistory } from 'react-router';
 
 import '../../App.scss'
 import axios from 'axios';
 
 
-const Login = ({ setView }) => {
-
-  const [userId, setUserId] = useState(null);
-  const [formValue, setFormValue] = useState();
-  const [token, setToken] = useState();
+const Login = ({ setUserId, userId}) => {
 
   const chatClient = useContext(ChatClientContext);
+  const history = useHistory();
 
   const getToken = async () => {
     // console.log('get token userid', userId)
     const response = await axios.post('http://localhost:4000/token', {
       userId
     })
-    setToken(response.data);
+    // setToken(response.data);
     //  console.log("RESPONSE", response);
      chatClient.connectUser({id: userId}, response.data)
      .then( r => {
-       console.log('Connect User Response', r);
-
+      //  console.log('Connect User Response', r);
+       setUserId(userId);
+      //  setView('lobby');
+       history.push("/lobby")
       });
   }
 
@@ -34,14 +35,13 @@ const Login = ({ setView }) => {
   }
 
   const handleClick = async () => {
-    // console.log("VALUE SUBMITED", userId);
-    if(userId){
+    // if(userId){
       getToken();
-      setFormValue('')
-    }
+    // }
   }
 
   return (
+     
     <Box sx={{ 
         bgcolor: '#cfe8fc', 
         
@@ -53,7 +53,8 @@ const Login = ({ setView }) => {
         <TextField 
           name="userId" 
           label="Create Username"  
-          value={formValue} type="text"  
+          // value={formValue}
+          type="text"  
           onChange={(e) => handleChange(e)} 
           sx={{marginBottom: '10px'}}
         />
@@ -62,6 +63,7 @@ const Login = ({ setView }) => {
         <Button variant="contained" size="large"  onClick={handleClick}>Join Chat!</Button>
       </div>
     </Box>
+   
   );
 }
 

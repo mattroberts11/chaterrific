@@ -1,31 +1,46 @@
-import { useEffect, useState,  } from 'react';
-import { ChatClientProvider } from './ChatClientContext';
-import { Container, CssBaseline } from '@mui/material/';
+import { useContext, useState } from 'react';
+import { ChatClientContext, ChatClientProvider } from './ChatClientContext';
 
-import Login from './components/Login';
-import Lobby from './components/Lobby';
+import { CssBaseline } from '@mui/material/';
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+
+} from 'react-router-dom';
 
 import './App.scss';
+import Lobby from './pages/Lobby/Lobby';
+import Login from './pages/Login/Login';
+
+
 
 
 const  App = () => {
 
-  // const chatClient = useContext(ChatClientContext);
-  const [view, setView] = useState('lobby');
+  // const [view, setView] = useState('login');
+  const [userId, setUserId] = useState(null);
 
-  useEffect( () => {
-
-  }, [])
+  const chatClient = useContext(ChatClientContext);
 
   return (
     <ChatClientProvider>
-      <CssBaseline />
-      <Container maxWidth={view ==="login" ? "sm" : "md"}>
-        { view === "login" ? <Login /> : (
-          view === "lobby" ? <Lobby /> : null
-        )
-        }
-      </Container>
+       <CssBaseline />
+       
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <Login setUserId={setUserId} userId={userId} />
+            </Route>
+            <Route path="/lobby">
+              
+              <Lobby userId={userId} />
+             
+            </Route>
+          </Switch>
+        </Router>
+        
     </ChatClientProvider>
   );
 }

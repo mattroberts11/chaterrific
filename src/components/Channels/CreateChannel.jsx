@@ -1,4 +1,4 @@
-import { StreamChat } from 'stream-chat';
+// import { StreamChat } from 'stream-chat';
 
 const CreateChannel = () => {
 

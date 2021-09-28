@@ -7,7 +7,7 @@ export const ChatClientContext = createContext();
 
 export const ChatClientProvider = (props) => {
 
-  const [chatClient] = useState(StreamChat.getInstance(appKey, {timeout: 6000}));
+  const [chatClient] = useState(StreamChat.getInstance(appKey));
 
   console.log("ChatClientContext chatClient", chatClient);
 
