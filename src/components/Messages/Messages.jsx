@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { ChatClientContext } from "../../ChatClientContext";
-import { Box, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
 import './messages.module.scss';
 
@@ -30,6 +30,7 @@ const Messages = () => {
       </div>
       <div className='chat-container'>
         <TextField fullWidth onChange={handleChange} />
+        <Button variant="contained" onClick={sendAMessage}>send</Button>
       </div>
     </>
   )
