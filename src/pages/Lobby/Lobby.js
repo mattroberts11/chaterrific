@@ -10,29 +10,39 @@ import Messages from '../../components/Messages/Messages'
 
 const Lobby = () => {
  
-  
-  const [isChannelSelected, setIsChannelSelected] = useState(false);
-
-  const [channelID, setChannelID] = useState('Skiing');
-  const [messages, setMessages] = useState([]);
-
-  
-
   const chatClient = useContext(ChatClientContext);
   const history = useHistory();
+  
+  const [isChannelSelected, setIsChannelSelected] = useState(false);
+  const [channelID, setChannelID] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [channel, setChannel] = useState();
 
+  
   const logout = () => {
-    // console.log('CLICKED LOG OUT');
     chatClient.disconnectUser();
     history.push("/");
   }
 
   useEffect( () => {
-    const myChannel = chatClient.channel('messaging', channelID);
-
-    setMessages(myChannel.state.messages);
-
+    if(chatClient.userID) {
+      const myChannel = chatClient.channel('messaging', channelID);
+      // console.log(myChannel.state);
+      setChannel(myChannel);
+      setMessages(myChannel.state.messages);
+    }
   }, [channelID])
+
+console.log('MESSAGES', messages)
+
+  channel?.on("message.new", () => {
+    setMessages(channel.state.messages)
+  });
+
+  channel?.on('message.deleted', () => {
+    setMessages(channel.state.messages)
+  })
+  
 
   return (
     <Box sx={{ flexGrow: 1}} className="lobby-box">
@@ -49,9 +59,11 @@ const Lobby = () => {
         <Grid item xs={8}>
           <Paper>
             <Messages  
-              isChannelSelected={isChannelSelected} 
+              isChannelSelected={isChannelSelected}
+              setMessages={setMessages} 
               messages={messages} 
               channelID={channelID} 
+              channel={channel}
             />
           </Paper>
         </Grid>

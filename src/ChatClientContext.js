@@ -9,7 +9,7 @@ export const ChatClientProvider = (props) => {
 
   const [chatClient] = useState(StreamChat.getInstance(appKey));
 
-  console.log("ChatClientContext chatClient", chatClient);
+  // console.log("ChatClientContext chatClient", chatClient);
 
   return (
     <ChatClientContext.Provider value={chatClient}>

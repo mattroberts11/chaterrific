@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from "react";
+import { Button, ButtonGroup } from "@mui/material";
 import { ChatClientContext } from "../../ChatClientContext";
+
 
 const Channels = ({ setIsChannelSelected, setChannelID }) => {
 
@@ -31,11 +33,11 @@ const Channels = ({ setIsChannelSelected, setChannelID }) => {
       getChannels();
     }
 
-  },[])
+  })
 
 
 
-console.log('CHANNELS', channelsLink);
+// console.log('CHANNELS', channelsLink);
 
 
 // click on channel and return messages for that channel.
@@ -45,13 +47,22 @@ console.log('CHANNELS', channelsLink);
   return (
     <>
       <h2>Current User Channels</h2>
-      <ul>
+      <ButtonGroup 
+        orientation="vertical"
+        variant="contained"  
+      >
         { channelsLink &&
           channelsLink.map( (channel, i) => (
-            <li key={`${channel.id}-${i}`} onClick={() => handleClick(channel.id)}>{`${channel.id}(${channel.data.member_count})`}</li>
+            <Button 
+              key={`${channel.id}-${i}`} 
+              onClick={() => handleClick(channel.id)}
+              size="large"
+            >
+              {`${channel.id}(${channel.data.member_count})`}
+            </Button>
           ))
         } 
-      </ul>
+      </ButtonGroup>
     </>
   );
 }

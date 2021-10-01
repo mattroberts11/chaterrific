@@ -26,6 +26,49 @@ button {
 
 .message-container {
   margin: 20px;
+
+  .messages {
+    display: flex;
+    flex-direction: column;
+
+    &-bubble {
+      background-color: #ccc;
+      padding: 20px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      margin-right: 20%;
+
+      &_text {
+        margin-bottom: 10px;
+        font-style: italic;
+      }
+
+      &_info-wrap {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: .875rem;
+        
+        &--delete {
+          font-size: .75rem;
+          :hover {
+            cursor: pointer;
+          }
+        }
+        &--user {
+          
+          font-weight: bold;
+        }
+      }
+    }
+
+    &-is-user {
+      background-color: #1976d2;
+      color: #fff;
+      margin-left: 20%;
+      margin-right: 0;
+    }
+  }
 }
 
 .chat-container {
@@ -34,7 +77,6 @@ button {
 
 
   
-
 
 
 
