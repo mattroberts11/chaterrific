@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+h2 {
+  color: #444444;
+  text-align: center;
+}
+
 #login-box {
   margin: 35px auto;
 }
@@ -9,7 +14,7 @@
 .MuiBox-root {
   display: flex;
   flex-direction: column;
-  height: 90vh;
+  // height: 90vh;
   margin: 20px;
   padding: 20px;
   border-radius: 8px;
@@ -24,13 +29,24 @@ button {
   margin-left: 8px;   
 }
 
+// left side
+.channel-list {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+
+  
+}
+.messages-wrap {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
 .message-container {
-  margin: 20px;
-
+  margin: 0 20px 20px 20px;
+  
   .messages {
-    display: flex;
-    flex-direction: column;
-
+    
     &-bubble {
       background-color: #ccc;
       padding: 20px;
@@ -48,10 +64,10 @@ button {
         flex-direction: row;
         justify-content: space-between;
         font-size: .875rem;
-        
+
         &--delete {
           font-size: .75rem;
-          :hover {
+          &:hover {
             cursor: pointer;
           }
         }

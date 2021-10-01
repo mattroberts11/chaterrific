@@ -4,13 +4,9 @@ import { Button, TextField } from "@mui/material";
 
 import './messages.module.scss';
 
-const Messages = ({channel, channelID, isChannelSelected, messages, setMessages}) => {
+const Messages = ({channel, channelID, isChannelSelected, messages}) => {
 
   const chatClient = useContext(ChatClientContext);
-
-  // instatiate the channel
-
-  const messageChannel = chatClient.channel('messaging', channelID);
 
   const [messageText, setMessageText] = useState();
   const [chatValue, setChatValue] = useState('Send a message')
@@ -34,15 +30,15 @@ const Messages = ({channel, channelID, isChannelSelected, messages, setMessages}
       .then( (res) => {
         // console.log('SEND MESSAGE RESPONSE', response );
         console.log('SEND MESSAGE TEXT', res.message );
-        // setMessages(...messages, res.message.text);
       })
-      setChatValue('');
+
+    setChatValue('');
   }
 
   return (
-    <>
+    <div className="messages-wrap">
     { isChannelSelected ?
-      <div>
+      <>
         <div className='message-container'>
           <h2>Hey there {chatClient.userID}! Welcome to the {channelID} channel</h2>
           <div className="messages">
@@ -72,7 +68,6 @@ const Messages = ({channel, channelID, isChannelSelected, messages, setMessages}
         <div className='chat-container'>
           <TextField 
             fullWidth 
-            // label="Send a message"
             value={chatValue} 
             onChange={(e) => handleChange(e)} 
             sx={{marginBottom: '10px'}}
@@ -81,11 +76,11 @@ const Messages = ({channel, channelID, isChannelSelected, messages, setMessages}
           />
           <Button sx={{marginBottom: '10px'}}variant="contained" onClick={sendAMessage}>send</Button> 
         </div>
-      </div>
+      </>
       :
       <h2>Select a channel on the left to start chat</h2>
     }
-    </>
+   </div>
   )
 }
 

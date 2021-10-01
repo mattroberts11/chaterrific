@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
 import { ChatClientContext } from '../../ChatClientContext';
-
 import { Box, Button, TextField } from '@mui/material';
 import { useHistory } from 'react-router';
-
-import '../../App.scss'
 import axios from 'axios';
+import '../../App.scss'
 
 
 const Login = ({ setUserId, userId}) => {
@@ -18,14 +16,11 @@ const Login = ({ setUserId, userId}) => {
     const response = await axios.post('http://localhost:4000/token', {
       userId
     })
-    // setToken(response.data);
-    //  console.log("RESPONSE", response);
-     chatClient.connectUser({id: userId}, response.data)
-     .then( r => {
+
+    chatClient.connectUser({id: userId}, response.data)
+      .then( r => {
       //  console.log('Connect User Response', r);
-      //  setUserId(userId);
-      //  setView('lobby');
-       history.push("/lobby")
+        history.push("/lobby")
       });
   }
 
@@ -41,18 +36,12 @@ const Login = ({ setUserId, userId}) => {
 
   return (
      
-    <Box sx={{ 
-        bgcolor: '#cfe8fc', 
-        
-      }}
-      className="login-box"  
-    >
+    <Box className="login-box" >
       <h1>Chaterrific!</h1>
       <div>
         <TextField 
           name="userId" 
           label="Create Username"  
-          // value={formValue}
           type="text"  
           onChange={(e) => handleChange(e)} 
           sx={{marginBottom: '10px'}}

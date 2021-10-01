@@ -5,13 +5,7 @@ import { ChatClientContext } from "../../ChatClientContext";
 
 const Channels = ({ setIsChannelSelected, setChannelID }) => {
 
-  
-
   const chatClient = useContext(ChatClientContext);
-  
-
-
-
   const [channelsLink, setChannelsLink] = useState();
 
   const filter = { type: 'messaging', members: {$in: [chatClient.userID]}};
@@ -28,28 +22,20 @@ const Channels = ({ setIsChannelSelected, setChannelID }) => {
   }
 
   useEffect(() => {
-    
+
     if(!channelsLink){
       getChannels();
     }
 
   })
-
-
-
 // console.log('CHANNELS', channelsLink);
-
-
-// click on channel and return messages for that channel.
-
-
-
   return (
-    <>
-      <h2>Current User Channels</h2>
+    
+    <div className="channel-list">
+      <h2>Your Channels</h2>
       <ButtonGroup 
         orientation="vertical"
-        variant="contained"  
+        variant="outlined"  
       >
         { channelsLink &&
           channelsLink.map( (channel, i) => (
@@ -63,7 +49,8 @@ const Channels = ({ setIsChannelSelected, setChannelID }) => {
           ))
         } 
       </ButtonGroup>
-    </>
+    </div>
+    
   );
 }
 
