@@ -7,7 +7,6 @@ import Channels  from '../../components/Channels/Channels';
 import Messages from '../../components/Messages/Messages'
 
 
-
 const Lobby = () => {
  
   const chatClient = useContext(ChatClientContext);
@@ -17,6 +16,7 @@ const Lobby = () => {
   const [channelID, setChannelID] = useState('');
   const [messages, setMessages] = useState([]);
   const [channel, setChannel] = useState();
+  // const [channelMembers, setChannelMembers] = useState({});
 
   
   const logout = () => {
@@ -24,16 +24,35 @@ const Lobby = () => {
     history.push("/");
   }
 
+  const getMembers = async () => {
+
+    const filter = {};
+    const sort = {};
+    const options = {}
+    const people = await channel.queryMembers(filter, sort, options);
+    // .then( res => setChannelMembers(res.members));
+      // .then( res => shitheads = res.members)
+      // .then( res => setChannelMembers(res.members));
+    console.log("response members getMembers", people.members);
+    // setChannelMembers(people)
+    // console.log("use state members", channelMembers)
+  }
+
   useEffect( () => {
     if(chatClient.userID) {
       const myChannel = chatClient.channel('messaging', channelID);
-      // console.log(myChannel.state);
+      // myChannel.watch()
       setChannel(myChannel);
+      
       setMessages(myChannel.state.messages);
+
+      // if(channelID){
+      //   getMembers();
+      // }
     }
   }, [channelID])
 
-console.log('MESSAGES', messages)
+
 
   channel?.on("message.new", () => {
     setMessages(channel.state.messages)
@@ -42,7 +61,12 @@ console.log('MESSAGES', messages)
   channel?.on('message.deleted', () => {
     setMessages(channel.state.messages)
   })
-  
+
+
+console.log('Channel api==', channel);
+// console.log("channel ID", channelID);
+// console.log("channelMembers", channelMembers);
+
 
   return (
     <Box sx={{ flexGrow: 1}} className="lobby-box">
@@ -53,6 +77,7 @@ console.log('MESSAGES', messages)
             <Channels 
               setIsChannelSelected={setIsChannelSelected}
               setChannelID={setChannelID}
+              channel={channel}
             />
           </Paper>
         </Grid>

@@ -7,30 +7,37 @@ const Channels = ({ setIsChannelSelected, setChannelID }) => {
 
   const chatClient = useContext(ChatClientContext);
   const [channelsLink, setChannelsLink] = useState();
-
-  const filter = { type: 'messaging', members: {$in: [chatClient.userID]}};
-  const sort = [{last_message_at: -1}];
+  const [watch, setWatch] = useState();
 
   const getChannels = async () => {
+    const filter = { type: 'messaging', members: {$in: [chatClient.userID]}};
+    const sort = [{last_message_at: -1}];
     await chatClient.queryChannels(filter, sort)
       .then(res => setChannelsLink(res));
   }
 
+  const getMembers = async (channelID) => {
+    const channel = chatClient.channel('messaging', channelID);
+    await channel.watch()
+      .then( res => setWatch(res));
+  }
+  
+
   const handleClick = (id) => {
     setChannelID(id);
     setIsChannelSelected(true);
+    getMembers(id)
   }
 
   useEffect(() => {
-
-    if(!channelsLink){
-      getChannels();
-    }
-
-  })
-// console.log('CHANNELS', channelsLink);
-  return (
     
+    getChannels();
+    
+  },[]);
+  
+console.log('WATCH', watch)
+  return (
+    <>
     <div className="channel-list">
       <h2>Your Channels</h2>
       <ButtonGroup 
@@ -50,6 +57,21 @@ const Channels = ({ setIsChannelSelected, setChannelID }) => {
         } 
       </ButtonGroup>
     </div>
+    <div className="channel-members">
+
+      {/* if channel id return users of channel, online status and unread count */}
+      <h2>Channel Members</h2>
+      <ul>
+        { watch?.members ?  
+          watch.members.map( (member, i) => (
+          <li>{member.user_id}</li>
+        ))
+        : null
+        
+        }
+      </ul>
+    </div>
+    </>
     
   );
 }
