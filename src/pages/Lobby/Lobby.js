@@ -16,44 +16,23 @@ const Lobby = () => {
   const [channelID, setChannelID] = useState('');
   const [messages, setMessages] = useState([]);
   const [channel, setChannel] = useState();
-  // const [channelMembers, setChannelMembers] = useState({});
-
   
   const logout = () => {
     chatClient.disconnectUser();
     history.push("/");
   }
 
-  const getMembers = async () => {
-
-    const filter = {};
-    const sort = {};
-    const options = {}
-    const people = await channel.queryMembers(filter, sort, options);
-    // .then( res => setChannelMembers(res.members));
-      // .then( res => shitheads = res.members)
-      // .then( res => setChannelMembers(res.members));
-    console.log("response members getMembers", people.members);
-    // setChannelMembers(people)
-    // console.log("use state members", channelMembers)
-  }
-
+  
   useEffect( () => {
     if(chatClient.userID) {
       const myChannel = chatClient.channel('messaging', channelID);
-      // myChannel.watch()
-      setChannel(myChannel);
       
+      setChannel(myChannel);
       setMessages(myChannel.state.messages);
-
-      // if(channelID){
-      //   getMembers();
-      // }
     }
   }, [channelID])
 
-
-
+// EVENTS
   channel?.on("message.new", () => {
     setMessages(channel.state.messages)
   });
@@ -64,8 +43,6 @@ const Lobby = () => {
 
 
 console.log('Channel api==', channel);
-// console.log("channel ID", channelID);
-// console.log("channelMembers", channelMembers);
 
 
   return (

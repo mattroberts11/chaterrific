@@ -23,7 +23,8 @@ const Messages = ({channel, channelID, isChannelSelected, messages}) => {
       // Do something with resoponse
   }
 
-  const sendAMessage = async () => {
+  const sendAMessage = async (e) => {
+    e.preventDefault();
     await channel.sendMessage({
       text: messageText,
     })
@@ -66,15 +67,18 @@ const Messages = ({channel, channelID, isChannelSelected, messages}) => {
           </div>
         </div>
         <div className='chat-container'>
-          <TextField 
-            fullWidth 
-            value={chatValue} 
-            onChange={(e) => handleChange(e)} 
-            sx={{marginBottom: '10px'}}
-            type="text"
-            onClick={() => setChatValue('')}
-          />
-          <Button sx={{marginBottom: '10px'}}variant="contained" onClick={sendAMessage}>send</Button> 
+          <form onSubmit={sendAMessage}>
+            <TextField 
+              fullWidth 
+              value={chatValue} 
+              onChange={(e) => handleChange(e)} 
+              sx={{marginBottom: '10px'}}
+              type="text"
+              onClick={() => setChatValue('')}
+              
+            />
+          <Button type="submit" sx={{marginBottom: '10px'}} variant="contained" onClick={sendAMessage}>send</Button> 
+          </form>
         </div>
       </>
       :
