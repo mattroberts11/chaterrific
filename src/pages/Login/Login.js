@@ -28,7 +28,8 @@ const Login = ({ setUserId, userId}) => {
     setUserId(e.target.value);
   }
 
-  const handleClick = async () => {
+  const handleClick = async (e) => {
+    e.preventDefault();
     // if(userId){
       getToken();
     // }
@@ -38,6 +39,7 @@ const Login = ({ setUserId, userId}) => {
      
     <Box className="login-box" >
       <h1>Chaterrific!</h1>
+      <form onSubmit={handleClick}>
       <div>
         <TextField 
           name="userId" 
@@ -50,6 +52,7 @@ const Login = ({ setUserId, userId}) => {
       <div>
         <Button variant="contained" size="large"  onClick={handleClick}>Join Chat!</Button>
       </div>
+      </form>
     </Box>
    
   );

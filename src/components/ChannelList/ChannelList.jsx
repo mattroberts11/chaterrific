@@ -35,7 +35,7 @@ const ChannelList = ({
         { channelsLink &&
             channelsLink.map( (channel, i) => (
               
-              <ListItem disablePadding className="channelListItem">
+              <ListItem key={`list-item-${i}`} disablePadding className="channelListItem">
                 <ListItemButton>
                   <ListItemIcon>
                     <ChatIcon />

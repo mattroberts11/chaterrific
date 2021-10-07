@@ -48,7 +48,7 @@ const Messages = ({channel, channelID, isChannelSelected, messages}) => {
               ?
                 messages.map( (message, i) => (
                   <>
-                    <div className={`messages-bubble ${message.user.id === chatClient.userID ? 'messages-is-user' : null}`} >
+                    <div key={`chat-msg-bubble-${i}`} className={`messages-bubble ${message.user.id === chatClient.userID ? 'messages-is-user' : null}`} >
                       <div  key={`chat-msg-text${i}`} className="messages-bubble_text">{message.text}</div>
                       <div className="messages-bubble_info-wrap">
                         
