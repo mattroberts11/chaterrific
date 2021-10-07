@@ -93,8 +93,14 @@ button {
 
 
   
+li.memberListItem .greenText > p {
+  color: green;
+  font-weight: bold;
+}
 
-
+li.channelListItem .previewText > p {
+  font-style: italic;
+}
 
 
 

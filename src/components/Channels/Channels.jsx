@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, ButtonGroup } from "@mui/material";
 import { ChatClientContext } from "../../ChatClientContext";
-
+import ChannelList from '../ChannelList/ChannelList';
+import Members from '../Members/Members';
 
 const Channels = ({ setIsChannelSelected, setChannelID }) => {
 
@@ -10,7 +10,14 @@ const Channels = ({ setIsChannelSelected, setChannelID }) => {
   const [watch, setWatch] = useState();
   const [channelMembers, setChannelMembers] = useState();
   
-
+  const getMembers = async (channelID) => {
+    const channel = chatClient.channel('messaging', channelID);
+    await channel.watch()
+      .then( res => setWatch(res));
+    await channel.queryMembers({})
+      .then( res => setChannelMembers(res));
+  }
+  
   const getChannels = async () => {
     const filter = { type: 'messaging', members: {$in: [chatClient.userID]}};
     const sort = [{last_message_at: -1}];
@@ -18,28 +25,8 @@ const Channels = ({ setIsChannelSelected, setChannelID }) => {
       .then(res => setChannelsLink(res));
   }
 
-  const getMembers = async (channelID) => {
-
-    const channel = chatClient.channel('messaging', channelID);
-
-    await channel.watch()
-      .then( res => setWatch(res));
-
-    await channel.queryMembers({})
-      .then( res => setChannelMembers(res));
-  }
-  
-
-  const handleClick = (id) => {
-    setChannelID(id);
-    setIsChannelSelected(true);
-    getMembers(id)
-  }
-
   useEffect(() => {
-    
     getChannels();
-    
   },[]);
   
 console.log('WATCH', watch)
@@ -48,50 +35,17 @@ console.log('CHANNELS LINK', channelsLink);
 
   return (
     <>
-    <div className="channel-list">
-      <h2>Your Channels</h2>
-      <ButtonGroup 
-        orientation="vertical"
-        variant="outlined"  
-      >
-        { channelsLink &&
-          channelsLink.map( (channel, i) => (
-           
-            <Button 
-              key={`${channel.id}-${i}`} 
-              onClick={() => handleClick(channel.id)}
-              size="large"
-            >
-              {`${channel.id} (${channel.state.unreadCount} unread)`}
-              
-            </Button>
-           
-           
-          ))
-        } 
-      </ButtonGroup>
-    </div>
-    <div className="channel-members">
-
-      {/* if channel id return users of channel, online status and unread count */}
-      <h2>Channel Members</h2>
-      
-      <ul>
-        { watch?.members ?  
-          watch.members.map( (member, i) => (
-          <li key={`channel-${i}`}>{member.user_id}</li>
-        ))
-        : null
-        
-        }
-      </ul>
-
-      <h2>Watcher Count ({watch.watcher_count})</h2>
-      { channelsLink && 
-        channelsLink.state
-
-      }
-    </div>
+      <ChannelList 
+        setIsChannelSelected={setIsChannelSelected} 
+        setChannelID={setChannelID} 
+        getMembers={getMembers} 
+        channelsLink={channelsLink} 
+      />
+    { watch
+      ?
+        <Members watch={watch} channelsLink={channelsLink} />
+      : null 
+    }
     </>
     
   );

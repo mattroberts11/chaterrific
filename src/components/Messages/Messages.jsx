@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { ChatClientContext } from "../../ChatClientContext";
 import { Button, TextField } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/DeleteOutline';
 
 import './messages.module.scss';
 
@@ -54,7 +55,13 @@ const Messages = ({channel, channelID, isChannelSelected, messages}) => {
                         {/* <div className="message-date">{message.created_at}</div> */}
                         <div key={`chat-msg-user${i}`} className="messages-bubble_info-wrap--user">{message.user.id}</div>
                         { message.user.id === chatClient.userID ?
-                          <div key={`chat-msg-delete${i}`} className="messages-bubble_info-wrap--delete" onClick={() => { deleteAMessage(message.id)}}>delete[X]</div>
+                          <div 
+                            key={`chat-msg-delete${i}`} 
+                            className="messages-bubble_info-wrap--delete" 
+                            onClick={() => { deleteAMessage(message.id)}}
+                          >
+                            <DeleteIcon />
+                          </div>
                           : null
                         }
                       </div>
