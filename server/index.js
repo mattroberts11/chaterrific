@@ -38,6 +38,31 @@ app.post('/token', async (req, res) => {
     }
 })
 
+app.post('/delete-user', (req, res) => {
+
+  console.log("delete user request", req.body);
+  
+  const { userId } = req.body;
+
+  const destroyUser = async (userId) => {
+    return await serverClient.deleteUser(userId, {
+      delete_conversation_channels: true, 
+      mark_messages_deleted: true, 
+      hard_delete: true,
+    })
+  }
+
+  try {
+    destroyUser(userId)
+      // .then( response => console.log("DELETE USER RESPONSE", response))
+      .then( response => res.status(200).send(response))
+      
+  } catch (err) {
+    res.status(500).send('Error deleting user', err)
+  }
+
+})
+
 app.listen(port, () => {
     console.log(`chaterrific app listening on port ${port}`);
 })

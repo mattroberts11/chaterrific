@@ -16,6 +16,7 @@ const Lobby = () => {
   const [channelID, setChannelID] = useState('');
   const [messages, setMessages] = useState([]);
   const [channel, setChannel] = useState();
+  const [events, setEvents] = useState();
   
   const logout = () => {
     chatClient.disconnectUser();
@@ -41,9 +42,25 @@ const Lobby = () => {
     setMessages(channel.state.messages)
   })
 
+  // chatClient.on( (event) => { 
+  //   if (event.total_unread_count !== null) { 
+  //     console.log(`unread messages count is now: ${event.total_unread_count}`); 
+  //   } 
+    
+  //   if (event.unread_channels !== null) { 
+  //     console.log(`unread channels count is now: ${event.unread_channels}`); 
+  //   } 
+    
+  // }); 
+  
+  // chatClient.on('user.presence.changed', (event) => {
+  //   console.log('EVENT FUNC', event);
+  //   // console.log('channel.state',)
+  //   // setEvents(event);
+  // })
 
 console.log('Channel api==', channel);
-
+// console.log('EVENTS STATE', events)
 
   return (
     <Box sx={{ flexGrow: 1}} className="lobby-box">

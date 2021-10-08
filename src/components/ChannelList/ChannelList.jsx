@@ -4,6 +4,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import ListSubheader from '@mui/material/ListSubheader';
 import Divider from '@mui/material/Divider';
 
 import ChatIcon from '@mui/icons-material/Forum';
@@ -29,9 +30,12 @@ const ChannelList = ({
     <>
     
     <div className="channel-list">
-    <h2>Channels</h2>
+    {/* <h2>Channels</h2> */}
     <Divider />
       <List>
+      <ListSubheader component="div" id="nested-list-subheader">
+            Channels
+          </ListSubheader>
         { channelsLink &&
             channelsLink.map( (channel, i) => (
               

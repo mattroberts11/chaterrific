@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { ChatClientContext } from "../../ChatClientContext";
 import ChannelList from '../ChannelList/ChannelList';
+import ManageChannels from "../ManageChannels/ManageChannels";
 import Members from '../Members/Members';
 
 const Channels = ({ setIsChannelSelected, setChannelID }) => {
@@ -46,6 +47,7 @@ console.log('CHANNELS LINK', channelsLink);
         <Members watch={watch} channelsLink={channelsLink} />
       : null 
     }
+    <ManageChannels />
     </>
     
   );
