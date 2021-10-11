@@ -11,7 +11,7 @@ import UserIcon from '@mui/icons-material/PersonOutline';
 
 import UserList from './UserList';
 
-const ManageChannels = () => {
+const Manage = () => {
 
   const [open, setOpen] = useState(false);
 
@@ -35,7 +35,7 @@ const ManageChannels = () => {
           <ListItemIcon>
             <UserIcon />
           </ListItemIcon>
-          <ListItemText primary="Users" />
+          <ListItemText primary="App Users" />
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={open} timeout="auto" unmountOnExit>
@@ -47,4 +47,4 @@ const ManageChannels = () => {
 
 }
 
-export default ManageChannels;
+export default Manage;
