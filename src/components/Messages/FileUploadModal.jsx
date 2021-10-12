@@ -12,7 +12,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  border: '1px solid #ccc',
   boxShadow: 24,
   p: 4,
 };
@@ -26,6 +26,7 @@ const FileUploadModal = ({channel, open, handleClose, sendAMessage, setAttachmen
     await channel.sendImage(file)
       // .then( r => console.log("send file response", r.file))
       .then( r => setAttachments(r.file))
+      .finally( () => sendAMessage())
 
     handleClose();
   }
@@ -35,8 +36,6 @@ const FileUploadModal = ({channel, open, handleClose, sendAMessage, setAttachmen
     // const files = e.target.files;
     setFile(e.target.files[0])
   }
-
-  
 
   return (
     <div>
@@ -48,16 +47,21 @@ const FileUploadModal = ({channel, open, handleClose, sendAMessage, setAttachmen
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Select file to upload by clicking button.
+          <Typography id="modal-modal-title" variant="h6" component="h2" sx={{marginBottom: '20px'}}>
+            Choose File to Upload
           </Typography>
-          <input type="file" name="file" className="form-control" onChange={(e) => addFile(e)} />
-          <Button onClick={(e) => handleClickUploadFile(e)}>Upload File</Button>
+            <input type="file" name="file" className="form-control" onChange={(e) => addFile(e)} />
+          <Button 
+            variant="contained" 
+            onClick={(e) => handleClickUploadFile(e)}
+            sx={{marginTop: '20px'}}
+          >
+            Upload File
+          </Button>
         </Box>
       </Modal>
     </div>
   );
-
 }
 
 export default FileUploadModal;

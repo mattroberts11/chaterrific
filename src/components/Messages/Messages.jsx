@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ChatClientContext } from "../../ChatClientContext";
 import FileUploadModal from "./FileUploadModal";
 import { Button } from "@mui/material";
@@ -18,7 +18,7 @@ const Messages = ({channel, channelID, isChannelSelected, messages}) => {
   const chatClient = useContext(ChatClientContext);
 
   const [messageText, setMessageText] = useState();
-  const [attachments, setAttachments] = useState();
+  const [attachments, setAttachments] = useState('');
   const [chatValue, setChatValue] = useState('Send a message');
   const [open, setOpen] = useState(false);
 
@@ -32,32 +32,34 @@ const Messages = ({channel, channelID, isChannelSelected, messages}) => {
     setChatValue(e.target.value)
   }
 
-  
-
   const deleteAMessage = async (messageId) => {
     await chatClient.deleteMessage(messageId, true)
       .then( (res) => console.log("DELETE RESPONSE", res))
       // Do something with resoponse
   }
-
+  
   const sendAMessage = async (e) => {
     if(e){
       e.preventDefault();
     }
+
     await channel.sendMessage({
       text: messageText,
       attachments: [
         { type: 'image',
           asset_url: attachments, 
         }
-      ]
+      ],
     })
       .then( (res) => {
         // console.log('SEND MESSAGE RESPONSE', response );
         console.log('SEND MESSAGE TEXT', res.message );
       })
-
-    setChatValue('');
+      .finally( () => {
+        // setAttachments('');
+        setChatValue('Send a message');
+        setMessageText('');
+      })
   }
 
   return (
@@ -74,7 +76,7 @@ const Messages = ({channel, channelID, isChannelSelected, messages}) => {
                     <div key={`chat-msg-bubble-${i}`} className={`messages-bubble ${message.user.id === chatClient.userID ? 'messages-is-user' : null}`} >
                       <div  key={`chat-msg-text${i}`} className="messages-bubble_text">{message.text}</div>
                       { message.attachments.length ?
-                        <div  key={`chat-msg-img${i}`} className="messages-bubble_text">
+                        <div  key={`chat-msg-img${i}`} className="messages-bubble_image">
                           <img src={`${message.attachments[0]?.asset_url}`} />
                         </div>
                         : null
@@ -103,49 +105,37 @@ const Messages = ({channel, channelID, isChannelSelected, messages}) => {
           </div>
         </div>
         <div className='chat-container'>
-          {/* <form onSubmit={sendAMessage}>
-            <TextField 
-              fullWidth 
-              value={chatValue} 
-              onChange={(e) => handleChange(e)} 
-              sx={{marginBottom: '10px'}}
-              type="text"
-              onClick={() => setChatValue('')}
-              
-            />
-
-          <Button type="submit" sx={{marginBottom: '10px'}} variant="contained" onClick={sendAMessage}>send</Button> 
-          </form> */}
-          <FormControl variant="filled" fullWidth onSubmit={sendAMessage}>
-          {/* <InputLabel htmlFor="filled-adornment-username">Username</InputLabel> */}
-            <OutlinedInput
-              id="filled-adornment-username"
-              value={chatValue} 
-              onChange={(e) => handleChange(e)} 
-              onClick={() => setChatValue('')}
-              sx={{marginBottom: '10px'}}
-              type="text"
-              
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleOpen}
-                    // onChange={(e) => handleChange(e)} 
-                    
-                    // onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {/* {values.showPassword ? <VisibilityOff /> : <Visibility />} */}
-                  <FileUploadIcon /> 
-                  </IconButton>
-                </InputAdornment>
-              }
-              // label="Username"
-            />
-            <Button type="submit" sx={{marginBottom: '10px'}} variant="contained" onClick={sendAMessage}>send</Button> 
-          </FormControl>
-          <FileUploadModal open={open} channel={channel} handleClose={handleClose} sendAMessage={sendAMessage} setAttachments={setAttachments} />
+          {/* <form onSubmit={sendAMessage}> */}
+            <FormControl variant="filled" fullWidth >
+              <OutlinedInput
+                id="filled-adornment-username"
+                value={chatValue} 
+                onChange={(e) => handleChange(e)} 
+                onClick={() => setChatValue('')}
+                sx={{marginBottom: '10px'}}
+                type="text"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleOpen}
+                      edge="end"
+                    >
+                      <FileUploadIcon /> 
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+              <Button type="submit" sx={{marginBottom: '10px'}} variant="contained" onClick={sendAMessage}>send</Button> 
+            </FormControl>
+          {/* </form> */}
+          <FileUploadModal 
+            open={open} 
+            channel={channel} 
+            handleClose={handleClose} 
+            sendAMessage={sendAMessage} 
+            setAttachments={setAttachments} 
+          />
         </div>
       </>
       :

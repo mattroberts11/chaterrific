@@ -44,6 +44,9 @@ button {
 }
 .message-container {
   margin: 0 20px 20px 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   
   .messages {
     
@@ -53,6 +56,10 @@ button {
       margin-bottom: 10px;
       border-radius: 10px;
       margin-right: 20%;
+
+      &_image {
+        width: 90vw;
+      }
 
       &_text {
         margin-bottom: 10px;
