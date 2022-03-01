@@ -28,7 +28,7 @@ app.post('/token', async (req, res) => {
 
     const token = serverClient.createToken(
         userId,
-        Math.floor(Date.now() / 1000) + (60 * 60) // expires in 1 hr
+        // Math.floor(Date.now() / 1000) + (60 * 60) // expires in 1 hr
     );
     
     try {

@@ -49,7 +49,7 @@ const ChannelList = ({
                     className="previewText"
                     onClick={() => handleClick(channel.id)}
                     primary={`${channel.id} (${channel.state.unreadCount} unread)`}
-                    secondary={channel.state.messages[getIndex(channel.state.messages.length)].text}
+                    secondary={channel.state.messages[getIndex(channel.state.messages.length)]?.text}
                   />
                 </ListItemButton>
               </ListItem>

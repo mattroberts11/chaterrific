@@ -28,6 +28,7 @@ const Channels = ({ setIsChannelSelected, setChannelID }) => {
 
   useEffect(() => {
     getChannels();
+
   },[]);
   
 console.log('WATCH', watch)
